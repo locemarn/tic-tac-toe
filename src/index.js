@@ -15,10 +15,16 @@ let gameState = ['', '', '', '', '', '', '', '', '']
 function handleCellClick(event) {
     const clickedCell = event.target
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
+
+    if (gameState[clickedCellIndex] !== '') return
     
     gameState[clickedCellIndex] = currentPlayer
     clickedCell.innerHTML = currentPlayer
+    
+    
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
 
+    
     console.log(gameState)
 
 }
