@@ -1,3 +1,4 @@
+const message = document.querySelector('.message')
 let gameOn = true;
 let currentPlayer = 'X';
 const winningConditions = [
@@ -12,22 +13,45 @@ const winningConditions = [
 ];
 let gameState = ['', '', '', '', '', '', '', '', '']
 
+function handleResultValidation() {
+    let roundWon = false;
+    for (let i = 0; i < 8; i++) {
+        const winCondition = winningConditions[i]         
+        let a = gameState[winCondition[0]];
+        let b = gameState[winCondition[1]];
+        let c = gameState[winCondition[2]];
+        if (a === '' || b === '' || c === '') {
+            continue;
+        }
+        if (a === b && b === c) {
+            roundWon = true;
+            break
+        }
+    }
+
+    if (roundWon) {
+        console.log('roundWon', currentPlayer)
+        gameOn = false;
+        return;
+    }
+}
+
 function handleCellClick(event) {
     const clickedCell = event.target
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
 
-    if (gameState[clickedCellIndex] !== '') return
+    if (gameState[clickedCellIndex] !== '' || !gameOn) return;
     
-    gameState[clickedCellIndex] = currentPlayer
-    clickedCell.innerHTML = currentPlayer
-    
+    gameState[clickedCellIndex] = currentPlayer;
+    clickedCell.innerHTML = currentPlayer;
+
+    handleResultValidation();
     
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
 
     
-    console.log(gameState)
 
 }
 
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick))
+document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
 
