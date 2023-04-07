@@ -14,8 +14,12 @@ let gameState = ['', '', '', '', '', '', '', '', '']
 
 function handleCellClick(event) {
     const clickedCell = event.target
-    const clickedCellIndex = clickedCell.getAttribute('data-cell-index')
-    console.log('clickedCellIndex', clickedCellIndex)
+    const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
+    
+    gameState[clickedCellIndex] = currentPlayer
+    clickedCell.innerHTML = currentPlayer
+
+    console.log(gameState)
 
 }
 
