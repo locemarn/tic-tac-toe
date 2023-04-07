@@ -13,6 +13,12 @@ const winningConditions = [
 ];
 let gameState = ['', '', '', '', '', '', '', '', '']
 
+const winningMessage = () => `${currentPlayer} has won!`;
+const drawMessage = () => `Draw Game!`;
+const currentPlayerTurn = () => `${currentPlayer}'s turn`;
+
+message.innerHTML = currentPlayerTurn()
+
 function handleResultValidation() {
     let roundWon = false;
     for (let i = 0; i < 8; i++) {
@@ -30,10 +36,19 @@ function handleResultValidation() {
     }
 
     if (roundWon) {
-        console.log('roundWon', currentPlayer)
+        message.innerHTML = winningMessage();
         gameOn = false;
         return;
     }
+
+    if (!gameState.includes('')) {
+        message.innerHTML = drawMessage();
+        gameOn = false;
+        return false;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    message.innerHTML = currentPlayerTurn();
 }
 
 function handleCellClick(event) {
@@ -45,11 +60,12 @@ function handleCellClick(event) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
 
-    handleResultValidation();
     
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    
 
-    
+    handleResultValidation();
+
+
 
 }
 
