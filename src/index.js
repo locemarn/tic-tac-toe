@@ -19,6 +19,11 @@ const currentPlayerTurn = () => `${currentPlayer}'s turn`;
 
 message.innerHTML = currentPlayerTurn()
 
+function handlePlayer() {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    message.innerHTML = currentPlayerTurn();
+}
+
 function handleResultValidation() {
     let roundWon = false;
     for (let i = 0; i < 8; i++) {
@@ -47,8 +52,7 @@ function handleResultValidation() {
         return false;
     }
 
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    message.innerHTML = currentPlayerTurn();
+    handlePlayer()
 }
 
 function handleCellClick(event) {
@@ -60,14 +64,15 @@ function handleCellClick(event) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
 
-    
-    
-
     handleResultValidation();
+}
 
-
-
+function handleRestart() {
+    gameOn = true;
+    gameState = ['', '', '', '', '', '', '', '', '']
+    document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = '');
+    currentPlayer = 'X';
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
-
+document.querySelector('.restart').addEventListener('click', handleRestart)
